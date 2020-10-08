@@ -59,14 +59,18 @@ namespace F4TestProject.Domain.Services.Users
         }
 
 
-        private AuthenticateResponse CreateAuthenticateResponse(IUser user)
+        private AuthenticateResponse CreateAuthenticateResponse(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_appSettings.JwtSecret);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()) }),
-                Expires = DateTime.UtcNow.AddMonths(1),
+                Subject = new ClaimsIdentity(new[]
+                {
+                    new Claim("id", user.Id.ToString()) ,
+                    new Claim("id", user.Role.ToString())
+                }),
+                Expires = DateTime.UtcNow.AddMonths(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha256Signature)
             };

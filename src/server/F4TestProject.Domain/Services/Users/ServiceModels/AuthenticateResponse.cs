@@ -3,7 +3,7 @@ using System;
 
 namespace F4TestProject.Domain.Services.Users.ServiceModels
 {
-    public class AuthenticateResponse : IUser
+    public class AuthenticateResponse
     {
         public string Token { get; }
         public string Email { get; }
@@ -12,7 +12,7 @@ namespace F4TestProject.Domain.Services.Users.ServiceModels
         public Roles Role { get; }
         public Guid Id { get; }
 
-        public AuthenticateResponse(IUser user, string token)
+        public AuthenticateResponse(User user, string token)
         {
             Email = user.Email;
             FirstName = user.FirstName;

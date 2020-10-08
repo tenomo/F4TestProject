@@ -1,7 +1,13 @@
-﻿using F4TestProject.API.Middleware;
+﻿using AutoMapper;
+using F4TestProject.API.Middleware;
+using F4TestProject.API.Models;
+using F4TestProject.API.SwaggerExamples;
 using F4TestProject.Domain.Data;
+using F4TestProject.Domain.Models;
+using F4TestProject.Domain.Services;
 using F4TestProject.Domain.Services.Users;
 using F4TestProject.Infrastructure;
+using F4TestProject.Infrastructure.JsonConverters;
 using F4TestProject.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Collections.Generic;
 
 namespace F4TestProject.API
@@ -25,25 +32,43 @@ namespace F4TestProject.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new DateFormatConverter());
+                options.JsonSerializerOptions.Converters.Add(new TimeFormatConverter());
+            });
+
+            services.AddSwaggerExamples();
+            services.AddSwaggerExamplesFromAssemblyOf<ActionItemRequestExample>();
+
             services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("actionShop"));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.AddScoped<IUserRepository, UsersRepository>();
+            services.AddScoped<IActionItemRepository, ActionItemRepository>();
             services.AddScoped<IUsersService, UsersService>();
-            services.AddSwaggerGen(options =>
+            services.AddScoped<IActionItemsService, ActionItemsService>();
+
+            services.AddAutoMapper(mapperConfig =>
             {
-                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                {
-                    Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
-                      Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'",
-                    Name = "Authorization",
-                    In = ParameterLocation.Header,
-                    Type = SecuritySchemeType.ApiKey,
-                    Scheme = "Bearer"
-                });
-                options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                {
+                mapperConfig.CreateMap<ActionItemRequest, ActionItem>();
+            });
+
+
+            //TODO move to sm. extenstion
+            services.AddSwaggerGen(options =>
+        {
+            options.ExampleFilters();
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+                      Enter 'Bearer' [space] [token]",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Scheme = "Bearer"
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
+            {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -59,8 +84,9 @@ namespace F4TestProject.API
                         },
                         new List<string>()
                     }
-                });
             });
+        });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -71,7 +97,7 @@ namespace F4TestProject.API
             }
 
             app.UseRouting();
-
+            app.UseMiddleware<JwtMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -79,13 +105,8 @@ namespace F4TestProject.API
                 endpoints.MapControllers();
             });
 
-            app.UseMiddleware<JwtMiddleware>();
-
-            // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
-            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
-            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
