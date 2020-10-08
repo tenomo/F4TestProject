@@ -1,7 +1,9 @@
 ﻿using F4TestProject.API.Attributes;
 using F4TestProject.API.Middleware;
+using F4TestProject.API.Models;
 using F4TestProject.Domain.Models;
 using F4TestProject.Domain.Services.Orders;
+using F4TestProject.Domain.Services.Orders.ServiceModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -34,8 +36,15 @@ namespace F4TestProject.API.Controllers
         [HttpPost]
         [Authorize(Roles.Customer)]
 
-        public void Post([FromBody] Order order)
+        public async Task Post([FromBody] OrderRequest order)
         {
+            var customer = ControllerContext.HttpContext.GetUser();
+            await _ordersService.Create(new OrderServiceModel()
+            {
+                Customer = customer,
+                ActionItemId = order.ActionItemId,
+                Tickets = order.Tickets
+            });
         }
     }
 }

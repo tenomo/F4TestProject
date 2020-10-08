@@ -10,6 +10,12 @@ namespace F4TestProject.Persistence
     public class OrdersRepository : IOrdersRepository
     {
         private readonly ApplicationDbContext _applicationDbContext;
+
+        public OrdersRepository(ApplicationDbContext applicationDbContext)
+        {
+            _applicationDbContext = applicationDbContext;
+        }
+
         public Task SaveChanges()
         {
             return _applicationDbContext.SaveChangesAsync();
