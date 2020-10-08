@@ -12,5 +12,6 @@ namespace F4TestProject.Domain.Data
         Task<PaginatedResult<ActionItem>> Get(string titleFilter, int page, int rows);
         void Update(ActionItem actionItem);
         Task<bool> IsActionItemExisting(Guid id);
+        Task<bool> IsTitleUsing(string title, Guid? exceptId = null);
     }
 }

@@ -36,12 +36,11 @@ namespace F4TestProject.Persistence
 
             var queryResultTask = itemActions.Skip(PaginationHelper.RowsFrom(page, rows)).Take(rows).ToListAsync();
 
-
             var result = new TaskFactory().ContinueWhenAll(new Task[] { queryResultTask, countTask }, tasks =>
              {
-                 var actionItems = (tasks[0] as Task<List<ActionItem>>).Result;
+                 var actionItems = ((Task<List<ActionItem>>)tasks[0]).Result;
 
-                 var totalCount = (tasks[1] as Task<int>).Result;
+                 var totalCount = ((Task<int>)tasks[1]).Result;
 
                  return new PaginatedResult<ActionItem>(actionItems, totalCount, page);
              });
@@ -57,6 +56,13 @@ namespace F4TestProject.Persistence
         public Task<bool> IsActionItemExisting(Guid id)
         {
             return _applicationDbContext.ActionItems.AnyAsync(item => item.Id == id);
+        }
+
+        public Task<bool> IsTitleUsing(string title, Guid? exceptId = null)
+        {
+            return exceptId.HasValue
+                ? _applicationDbContext.ActionItems.AnyAsync(item => title.Equals(title) && item.Id != exceptId.Value)
+                : _applicationDbContext.ActionItems.AnyAsync(item => title.Equals(title) && item.Id != exceptId.Value);
         }
     }
 }

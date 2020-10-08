@@ -32,10 +32,15 @@ namespace F4TestProject.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddJsonOptions(options =>
+            services.AddControllers(options =>
+            {
+            }).AddJsonOptions(options =>
             {
                 options.JsonSerializerOptions.Converters.Add(new DateFormatConverter());
                 options.JsonSerializerOptions.Converters.Add(new TimeFormatConverter());
+            }).AddMvcOptions(options =>
+            {
+                options.Filters.Add(new ErrorsFilter());
             });
 
             services.AddSwaggerExamples();

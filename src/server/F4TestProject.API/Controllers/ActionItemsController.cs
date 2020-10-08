@@ -37,7 +37,7 @@ namespace F4TestProject.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task Put(Guid id, [FromBody] ActionItem actionItemRequest)
+        public async Task Put(Guid id, [FromBody] ActionItemRequest actionItemRequest)
         {
             var actionItem = _mapper.Map<ActionItem>(actionItemRequest);
 
