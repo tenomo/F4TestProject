@@ -2,6 +2,7 @@
 using AutoMapper.EquivalencyExpression;
 using F4TestProject.API.Middleware;
 using F4TestProject.API.Models;
+using F4TestProject.API.Seeding;
 using F4TestProject.API.SwaggerExamples;
 using F4TestProject.Domain.Data;
 using F4TestProject.Domain.Models;
@@ -60,6 +61,10 @@ namespace F4TestProject.API
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IActionItemsService, ActionItemsService>();
             services.AddScoped<IOrdersService, OrdersService>();
+
+
+
+            services.AddScoped<IDbInitializer, DbInitializer>();
 
             services.AddAutoMapper(mapperConfig =>
             {
@@ -129,6 +134,12 @@ namespace F4TestProject.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
                 c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
             });
+
+            var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
+
+            using var scope = scopeFactory.CreateScope();
+            var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
+            dbInitializer.SeedData();
         }
     }
 }

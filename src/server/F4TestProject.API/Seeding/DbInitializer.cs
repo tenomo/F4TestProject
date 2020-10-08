@@ -7,7 +7,11 @@ using System;
 
 namespace F4TestProject.API.Seeding
 {
-    public class DbInitializer
+    interface IDbInitializer
+    {
+        public void SeedData();
+    }
+    public class DbInitializer : IDbInitializer
     {
         private readonly IServiceScopeFactory _scopeFactory;
 
@@ -15,8 +19,6 @@ namespace F4TestProject.API.Seeding
         {
             _scopeFactory = scopeFactory;
         }
-
-
 
         public void SeedData()
         {
