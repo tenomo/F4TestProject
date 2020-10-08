@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using F4TestProject.API.Middleware;
 using F4TestProject.API.Models;
 using F4TestProject.API.SwaggerExamples;
@@ -8,6 +9,7 @@ using F4TestProject.Domain.Services;
 using F4TestProject.Domain.Services.Users;
 using F4TestProject.Infrastructure;
 using F4TestProject.Infrastructure.JsonConverters;
+using F4TestProject.Infrastructure.Pagination;
 using F4TestProject.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -56,6 +58,9 @@ namespace F4TestProject.API
             services.AddAutoMapper(mapperConfig =>
             {
                 mapperConfig.CreateMap<ActionItemRequest, ActionItem>();
+                mapperConfig.CreateMap<PaginatedResult<ActionItem>, PaginatedResult<ActionItemResponse>>();
+                mapperConfig.CreateMap<ActionItem, ActionItemResponse>();
+                mapperConfig.AddCollectionMappers();
             });
 
 

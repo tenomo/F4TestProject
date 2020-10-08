@@ -9,8 +9,8 @@
         /// </summary>
         public string SearchValue
         {
-            get => _searchValue;
-            set => _searchValue = value ?? string.Empty;
+            get => _searchValue ?? string.Empty;
+            set => _searchValue = value;
         }
     }
 }

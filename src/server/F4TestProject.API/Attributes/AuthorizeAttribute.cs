@@ -17,7 +17,7 @@ namespace F4TestProject.API.Attributes
         }
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var user = (User)context.HttpContext.Items["User"];
+            var user = (User)context.HttpContext.Items["Customer"];
             if (user == null)
             {
                 context.Result = new JsonResult(new { message = "Unauthorized" })

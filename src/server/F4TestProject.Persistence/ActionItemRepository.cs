@@ -61,8 +61,8 @@ namespace F4TestProject.Persistence
         public Task<bool> IsTitleUsing(string title, Guid? exceptId = null)
         {
             return exceptId.HasValue
-                ? _applicationDbContext.ActionItems.AnyAsync(item => title.Equals(title) && item.Id != exceptId.Value)
-                : _applicationDbContext.ActionItems.AnyAsync(item => title.Equals(title));
+                ? _applicationDbContext.ActionItems.AnyAsync(item => item.Title.Equals(title) && item.Id != exceptId.Value)
+                : _applicationDbContext.ActionItems.AnyAsync(item => item.Title.Equals(title));
         }
     }
 }

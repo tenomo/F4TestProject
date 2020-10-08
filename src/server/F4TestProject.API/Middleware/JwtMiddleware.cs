@@ -51,7 +51,7 @@ namespace F4TestProject.API.Middleware
                 var userId = Guid.Parse(jwtToken.Claims.First(x => x.Type == "id").Value);
 
                 // attach user to context on successful jwt validation
-                context.Items["User"] = await usersService.GetById(userId);
+                context.Items["Customer"] = await usersService.GetById(userId);
             }
             catch
             {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using F4TestProject.API.Attributes;
 using F4TestProject.API.Models;
 using F4TestProject.Domain.Models;
 using F4TestProject.Domain.Services;
@@ -23,20 +24,25 @@ namespace F4TestProject.API.Controllers
         }
 
         [HttpGet]
-        public async Task<PaginatedResult<ActionItem>> Get([FromQuery] ActionItemsFilter actionItemsFilter)
+        public async Task<PaginatedResult<ActionItemResponse>> Get([FromQuery] ActionItemsFilter actionItemsFilter)
         {
-            return await _actionItemsService.Get(actionItemsFilter.SearchValue, actionItemsFilter.Page, actionItemsFilter.Rows);
+            var result = await _actionItemsService.Get(actionItemsFilter.SearchValue, actionItemsFilter.Page, actionItemsFilter.Rows);
+
+            var response = _mapper.Map<PaginatedResult<ActionItemResponse>>(result);
+
+            return response;
         }
 
         [HttpPost]
+        //[Authorize(Roles.Admin)]
         public async Task<Guid> Post([FromBody] ActionItemRequest actionItemRequest)
         {
-
             return await _actionItemsService.Create(_mapper.Map<ActionItem>(actionItemRequest));
         }
 
         [HttpPut("{id}")]
-        public async Task Put(Guid id, [FromBody] ActionItemRequest actionItemRequest)
+        [Authorize(Roles.Admin)]
+        public async Task Put([NoGuidEmpty] Guid id, [FromBody] ActionItemRequest actionItemRequest)
         {
             var actionItem = _mapper.Map<ActionItem>(actionItemRequest);
 
