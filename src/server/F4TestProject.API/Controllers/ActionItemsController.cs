@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 
-
 namespace F4TestProject.API.Controllers
 {
     [Route("api/[controller]")]
@@ -34,7 +33,7 @@ namespace F4TestProject.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles.Admin)]
+        [Authorize(Roles.Admin)]
         public async Task<Guid> Post([FromBody] ActionItemRequest actionItemRequest)
         {
             return await _actionItemsService.Create(_mapper.Map<ActionItem>(actionItemRequest));

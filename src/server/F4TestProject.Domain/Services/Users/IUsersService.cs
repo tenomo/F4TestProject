@@ -10,5 +10,6 @@ namespace F4TestProject.Domain.Services.Users
         Task<AuthenticateResponse> Authenticate(AuthenticateRequest authenticateRequest);
         Task<AuthenticateResponse> Register(UserRegisterRequest registerRequest);
         Task<User> GetById(Guid id);
+        Task<AuthenticateResponse> Register(UserRegisterRequest registerRequest, Roles role);
     }
 }

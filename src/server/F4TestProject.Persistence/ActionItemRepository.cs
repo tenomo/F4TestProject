@@ -17,6 +17,7 @@ namespace F4TestProject.Persistence
         {
             _applicationDbContext = applicationDbContext;
         }
+
         public Task SaveChanges()
         {
             return _applicationDbContext.SaveChangesAsync();
@@ -46,6 +47,11 @@ namespace F4TestProject.Persistence
              });
 
             return result;
+        }
+
+        public Task<ActionItem> Get(Guid id)
+        {
+            return _applicationDbContext.ActionItems.FirstOrDefaultAsync(item => item.Id == id);
         }
 
         public void Update(ActionItem actionItem)

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  f4testproject.api:
+    image: ${DOCKER_REGISTRY-}f4testprojectapi
+    build:
+      context: .
+      dockerfile: src/server/F4TestProject.API/Dockerfile

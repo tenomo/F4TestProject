@@ -45,10 +45,15 @@ namespace F4TestProject.Domain.Services.Users
 
         public async Task<AuthenticateResponse> Register(UserRegisterRequest registerRequest)
         {
+            return await Register(registerRequest, Roles.Customer);
+        }
+
+        public async Task<AuthenticateResponse> Register(UserRegisterRequest registerRequest, Roles role)
+        {
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerRequest.Password);
             var user = new User()
             {
-                Role = Roles.Customer,
+                Role = role,
                 Email = registerRequest.Email,
                 FirstName = registerRequest.FirstName,
                 LastName = registerRequest.LastName,

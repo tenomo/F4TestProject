@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>F4TestProject.API</name>
+    </assembly>
+    <members>
+        <member name="P:F4TestProject.API.Models.ActionItemsFilter.SearchValue">
+            <summary>
+            The search string by details and title.
+            </summary>
+        </member>
+        <member name="P:F4TestProject.API.Models.PaginationRequest.Page">
+            <summary>
+            The number of page.
+            </summary>
+        </member>
+        <member name="P:F4TestProject.API.Models.PaginationRequest.Rows">
+            <summary>
+            The rows of page.
+            </summary>
+        </member>
+    </members>
+</doc>

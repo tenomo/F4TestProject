@@ -7,9 +7,6 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["src/server/F4TestProject.API/F4TestProject.API.csproj", "src/server/F4TestProject.API/"]
-COPY ["src/server/F4TestProject.Domain/F4TestProject.Domain.csproj", "src/server/F4TestProject.Domain/"]
-COPY ["src/server/F4TestProject.Infrastructure/F4TestProject.Infrastructure.csproj", "src/server/F4TestProject.Infrastructure/"]
-COPY ["src/server/F4TestProject.Persistence/F4TestProject.Persistence.csproj", "src/server/F4TestProject.Persistence/"]
 RUN dotnet restore "src/server/F4TestProject.API/F4TestProject.API.csproj"
 COPY . .
 WORKDIR "/src/src/server/F4TestProject.API"

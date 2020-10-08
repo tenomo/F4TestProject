@@ -3,6 +3,7 @@ using F4TestProject.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Threading.Tasks;
+
 namespace F4TestProject.Persistence
 {
     public class UsersRepository : IUserRepository

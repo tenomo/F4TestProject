@@ -6,6 +6,7 @@ using F4TestProject.API.SwaggerExamples;
 using F4TestProject.Domain.Data;
 using F4TestProject.Domain.Models;
 using F4TestProject.Domain.Services;
+using F4TestProject.Domain.Services.Orders;
 using F4TestProject.Domain.Services.Users;
 using F4TestProject.Infrastructure;
 using F4TestProject.Infrastructure.JsonConverters;
@@ -20,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Collections.Generic;
+using System.IO;
 
 namespace F4TestProject.API
 {
@@ -50,10 +52,14 @@ namespace F4TestProject.API
 
             services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase("actionShop"));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
             services.AddScoped<IUserRepository, UsersRepository>();
             services.AddScoped<IActionItemRepository, ActionItemRepository>();
+            services.AddScoped<IOrdersRepository, OrdersRepository>();
+
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IActionItemsService, ActionItemsService>();
+            services.AddScoped<IOrdersService, OrdersService>();
 
             services.AddAutoMapper(mapperConfig =>
             {
@@ -77,6 +83,7 @@ namespace F4TestProject.API
                 Type = SecuritySchemeType.ApiKey,
                 Scheme = "Bearer"
             });
+            options.IncludeXmlComments(Path.ChangeExtension(typeof(Startup).Assembly.Location, ".xml"));
             options.AddSecurityRequirement(new OpenApiSecurityRequirement()
             {
                     {
@@ -120,7 +127,7 @@ namespace F4TestProject.API
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-
+                c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
             });
         }
     }

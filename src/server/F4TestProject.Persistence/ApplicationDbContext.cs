@@ -11,5 +11,8 @@ namespace F4TestProject.Persistence
         }
         public DbSet<User> Users { get; set; }
         public DbSet<ActionItem> ActionItems { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
+
+
 }
