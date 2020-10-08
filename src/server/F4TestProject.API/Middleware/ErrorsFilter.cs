@@ -60,7 +60,7 @@ namespace F4TestProject.API.Middleware
     {
         public void Handle(ExceptionContext context)
         {
-            if (context.Exception is NotUniqueEntryException)
+            if (context.Exception is AuthenticationFailedException)
             {
                 context.Result = new ObjectResult(context.Exception.Message);
                 context.HttpContext.Response.StatusCode = (int)HttpStatusCode.Forbidden;

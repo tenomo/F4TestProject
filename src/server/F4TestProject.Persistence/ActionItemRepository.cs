@@ -62,7 +62,7 @@ namespace F4TestProject.Persistence
         {
             return exceptId.HasValue
                 ? _applicationDbContext.ActionItems.AnyAsync(item => title.Equals(title) && item.Id != exceptId.Value)
-                : _applicationDbContext.ActionItems.AnyAsync(item => title.Equals(title) && item.Id != exceptId.Value);
+                : _applicationDbContext.ActionItems.AnyAsync(item => title.Equals(title));
         }
     }
 }

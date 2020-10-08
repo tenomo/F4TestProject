@@ -20,7 +20,7 @@ namespace F4TestProject.Domain.Services
         {
             if (_actionItemRepository.IsTitleUsing(actionItem.Title).Result)
             {
-                throw new NotUniqueEntryException($"The title {actionItem.Title} is not unique");
+                throw new NotUniqueEntryException($"The title '{actionItem.Title}' is not unique");
             }
 
             _actionItemRepository.Create(actionItem);
@@ -37,8 +37,14 @@ namespace F4TestProject.Domain.Services
         {
             if (!_actionItemRepository.IsActionItemExisting(actionItem.Id).Result)
             {
-                throw new EntryNotFoundException($"The entry with id {actionItem.Id} was not found");
+                throw new EntryNotFoundException($"The entry with id '{actionItem.Id}' was not found");
             }
+
+            if (_actionItemRepository.IsTitleUsing(actionItem.Title, actionItem.Id).Result)
+            {
+                throw new NotUniqueEntryException($"The title '{actionItem.Title}' is not unique");
+            }
+
             _actionItemRepository.Update(actionItem);
             return _actionItemRepository.SaveChanges();
         }

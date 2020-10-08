@@ -2,6 +2,7 @@
 using F4TestProject.Domain.Models;
 using F4TestProject.Domain.Services.Users.ServiceModels;
 using F4TestProject.Infrastructure;
+using F4TestProject.Infrastructure.Errors;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -27,9 +28,15 @@ namespace F4TestProject.Domain.Services.Users
         {
             var user = await _users.GetByEmail(authenticateRequest.Email);
 
-            if (user == null) return null;
+            if (user == null)
+            {
+                throw new AuthenticationFailedException();
+            };
 
-            BCrypt.Net.BCrypt.Verify(authenticateRequest.Password, user.PasswordHash);
+            if (!BCrypt.Net.BCrypt.Verify(authenticateRequest.Password, user.PasswordHash))
+            {
+                throw new AuthenticationFailedException();
+            }
 
             var token = CreateAuthenticateResponse(user);
 

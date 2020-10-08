@@ -18,9 +18,9 @@ namespace F4TestProject.Infrastructure.Errors
         }
     }
 
-    public class WrongPasswordException : BaseErrorException
+    public class AuthenticationFailedException : BaseErrorException
     {
-        public WrongPasswordException(string message) : base(message)
+        public AuthenticationFailedException() : base("Password is wrong or user was not found.")
         {
 
         }
