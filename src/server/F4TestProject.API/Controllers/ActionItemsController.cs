@@ -28,6 +28,9 @@ namespace F4TestProject.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Returns paginated ActionItems.
+        /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(PaginatedResult<ActionItemResponse>), (int)HttpStatusCode.OK)]
         public async Task<PaginatedResult<ActionItemResponse>> Get([FromQuery] ActionItemsFilter actionItemsFilter)
@@ -39,23 +42,29 @@ namespace F4TestProject.API.Controllers
             return response;
         }
 
+        /// <summary>
+        /// Creates a new ActionItem.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles.Admin)]
         [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<Guid> Post([FromBody] ActionItemRequest actionItemRequest)
         {
             return await _actionItemsService.Create(_mapper.Map<ActionItem>(actionItemRequest));
         }
 
+        /// <summary>
+        /// Updates an existing ActionItem by id.
+        /// </summary>
         [HttpPut("{id}")]
         [Authorize(Roles.Admin)]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.Forbidden)]
-        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task Put([NoGuidEmpty] Guid id, [FromBody] ActionItemRequest actionItemRequest)
         {
             var actionItem = _mapper.Map<ActionItem>(actionItemRequest);

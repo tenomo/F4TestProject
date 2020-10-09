@@ -53,9 +53,12 @@ namespace F4TestProject.API.Controllers
         /// </summary>
         [HttpGet("{id}")]
         [Authorize(Roles.Customer)]
-        public async Task<IActionResult> Get(Guid id)
+        [ProducesResponseType(typeof(User), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.Forbidden)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<User> Get(Guid id)
         {
-            return Ok(await _usersService.GetById(id));
+            return await _usersService.GetById(id);
         }
     }
 }

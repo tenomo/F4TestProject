@@ -4,6 +4,29 @@
         <name>F4TestProject.API</name>
     </assembly>
     <members>
+        <member name="T:F4TestProject.API.Controllers.ActionItemsController">
+            <summary>
+            Responsible for ActionItems managing.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.ActionItemsController.#ctor(F4TestProject.Domain.Services.IActionItemsService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:F4TestProject.API.Controllers.ActionItemsController.Get(F4TestProject.API.Models.ActionItemsFilter)">
+            <summary>
+            Returns paginated ActionItems.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.ActionItemsController.Post(F4TestProject.API.Models.ActionItemRequest)">
+            <summary>
+            Created a new ActionItem.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.ActionItemsController.Put(System.Guid,F4TestProject.API.Models.ActionItemRequest)">
+            <summary>
+            Updates an existing ActionItem by id.
+            </summary>
+        </member>
         <member name="T:F4TestProject.API.Controllers.OrdersController">
             <summary>
             Responsible of creating and viewing orders.
@@ -22,6 +45,29 @@
             Creates new order of authorized user.
             </summary>
             <param name="order"></param>
+        </member>
+        <member name="T:F4TestProject.API.Controllers.UserController">
+            <summary>
+            Responsible for user managing.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.UserController.#ctor(F4TestProject.Domain.Services.Users.IUsersService)">
+            <inheritdoc />
+        </member>
+        <member name="M:F4TestProject.API.Controllers.UserController.Authenticate(F4TestProject.Domain.Services.Users.ServiceModels.AuthenticateRequest)">
+            <summary>
+            Authenticate an existing user.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.UserController.Register(F4TestProject.Domain.Services.Users.ServiceModels.UserRegisterRequest)">
+            <summary>
+            Register a new user.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.UserController.Get(System.Guid)">
+            <summary>
+            Returns user by id.
+            </summary>
         </member>
         <member name="P:F4TestProject.API.Models.ActionItemsFilter.SearchValue">
             <summary>
