@@ -71,6 +71,7 @@ namespace F4TestProject.API
                 mapperConfig.CreateMap<ActionItemRequest, ActionItem>();
                 mapperConfig.CreateMap<PaginatedResult<ActionItem>, PaginatedResult<ActionItemResponse>>();
                 mapperConfig.CreateMap<ActionItem, ActionItemResponse>();
+                mapperConfig.CreateMap<Order, OrderResponse>();
                 mapperConfig.AddCollectionMappers();
             });
 
@@ -82,12 +83,12 @@ namespace F4TestProject.API
             options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
-                      Enter 'Bearer' [space] [token]",
+                      Enter '[token]",
                 Name = "Authorization",
                 In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-                Scheme = "Bearer"
+                Type = SecuritySchemeType.ApiKey
             });
+
             options.IncludeXmlComments(Path.ChangeExtension(typeof(Startup).Assembly.Location, ".xml"));
             options.AddSecurityRequirement(new OpenApiSecurityRequirement()
             {

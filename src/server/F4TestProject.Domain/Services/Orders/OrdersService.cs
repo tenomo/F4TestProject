@@ -18,7 +18,6 @@ namespace F4TestProject.Domain.Services.Orders
             _actionItemRepository = actionItemRepository;
         }
 
-
         public async Task Create(OrderServiceModel order)
         {
             var actionItem = await _actionItemRepository.Get(order.ActionItemId);

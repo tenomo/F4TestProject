@@ -31,7 +31,7 @@ namespace F4TestProject.Persistence
         public Task<PaginatedResult<ActionItem>> Get(string titleFilter, int page, int rows)
         {
             var itemActions = _applicationDbContext.ActionItems.AsNoTracking().Where(item =>
-                item.Title.Contains(titleFilter) || item.Description.Contains(titleFilter));
+                item.Title.Contains(titleFilter) || item.Description.Contains(titleFilter)).Include(item => item.Orders);
 
             var countTask = itemActions.CountAsync();
 

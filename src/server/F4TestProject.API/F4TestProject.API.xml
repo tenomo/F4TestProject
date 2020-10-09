@@ -4,6 +4,25 @@
         <name>F4TestProject.API</name>
     </assembly>
     <members>
+        <member name="T:F4TestProject.API.Controllers.OrdersController">
+            <summary>
+            Responsible of creating and viewing orders.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.OrdersController.#ctor(F4TestProject.Domain.Services.Orders.IOrdersService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:F4TestProject.API.Controllers.OrdersController.Get">
+            <summary>
+            Returns orders of authorized user.
+            </summary>
+        </member>
+        <member name="M:F4TestProject.API.Controllers.OrdersController.Post(F4TestProject.API.Models.OrderRequest)">
+            <summary>
+            Creates new order of authorized user.
+            </summary>
+            <param name="order"></param>
+        </member>
         <member name="P:F4TestProject.API.Models.ActionItemsFilter.SearchValue">
             <summary>
             The search string by details and title.

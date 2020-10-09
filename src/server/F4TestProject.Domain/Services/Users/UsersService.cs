@@ -38,8 +38,6 @@ namespace F4TestProject.Domain.Services.Users
                 throw new AuthenticationFailedException();
             }
 
-            var token = CreateAuthenticateResponse(user);
-
             return CreateAuthenticateResponse(user);
         }
 
@@ -51,7 +49,13 @@ namespace F4TestProject.Domain.Services.Users
         public async Task<AuthenticateResponse> Register(UserRegisterRequest registerRequest, Roles role)
         {
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerRequest.Password);
-            var user = new User()
+            var user = await _users.GetByEmail(registerRequest.Email);
+            if (user != null)
+            {
+                throw new NotUniqueEntryException($"The 'email' {user.Email} is used");
+            }
+
+            user = new User()
             {
                 Role = role,
                 Email = registerRequest.Email,
@@ -69,7 +73,6 @@ namespace F4TestProject.Domain.Services.Users
         {
             return _users.GetById(id);
         }
-
 
         private AuthenticateResponse CreateAuthenticateResponse(User user)
         {

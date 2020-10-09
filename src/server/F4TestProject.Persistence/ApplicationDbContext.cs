@@ -9,10 +9,19 @@ namespace F4TestProject.Persistence
             : base(options)
         {
         }
+
         public DbSet<User> Users { get; set; }
         public DbSet<ActionItem> ActionItems { get; set; }
         public DbSet<Order> Orders { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Order>().HasOne(order => order.Customer).
+                WithMany(user => user.Orders).IsRequired(); ;
+            modelBuilder.Entity<Order>().HasOne(order => order.ActionItem).
+                WithMany(item => item.Orders).IsRequired(); ;
+
+        }
     }
-
-
 }
