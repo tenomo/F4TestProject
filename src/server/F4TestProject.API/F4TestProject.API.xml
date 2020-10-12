@@ -19,7 +19,7 @@
         </member>
         <member name="M:F4TestProject.API.Controllers.ActionItemsController.Post(F4TestProject.API.Models.ActionItemRequest)">
             <summary>
-            Created a new ActionItem.
+            Creates a new ActionItem.
             </summary>
         </member>
         <member name="M:F4TestProject.API.Controllers.ActionItemsController.Put(System.Guid,F4TestProject.API.Models.ActionItemRequest)">

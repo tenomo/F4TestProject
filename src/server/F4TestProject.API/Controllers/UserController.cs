@@ -43,9 +43,9 @@ namespace F4TestProject.API.Controllers
         [ProducesResponseType(typeof(AuthenticateResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Register(UserRegisterRequest userRegisterRequest)
+        public async Task<AuthenticateResponse> Register(UserRegisterRequest userRegisterRequest)
         {
-            return Ok(await _usersService.Register(userRegisterRequest));
+            return await _usersService.Register(userRegisterRequest);
         }
 
         /// <summary>

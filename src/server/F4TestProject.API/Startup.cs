@@ -137,7 +137,8 @@ namespace F4TestProject.API
             });
 
             var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
-
+            
+			// TODO move to another app and run by docker-compose
             using var scope = scopeFactory.CreateScope();
             var dbInitializer = scope.ServiceProvider.GetService<IDbInitializer>();
             dbInitializer.SeedData();
